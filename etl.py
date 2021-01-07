@@ -6,6 +6,10 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+       Read the json files for song data and Insert appropirate values
+       in the songs and artist tables.
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -28,6 +32,11 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+       Read Json files containing user data, process required data and
+       insert data into time_data,user information and song_plays tables.
+       Executes query to access songs database.
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -85,6 +94,11 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+       Get the list of files from the required directory, iterate over
+       files and pass them to their respective data proccessing 
+       function.
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -104,6 +118,11 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+       Connect with postgres server and create a cursor to execute 
+       queries from 'sql_queries.py'. It further call the process_data
+       function with respect to the data(song or log).
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
